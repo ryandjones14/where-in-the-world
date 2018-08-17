@@ -1,0 +1,10 @@
+.unsplash-info {
+  position: relative;
+  bottom: 100px;
+  z-index: 10;
+}
+
+a {
+    color: rgb(223, 223, 223);
+    text-shadow: 3px 3px 5px 5px #252525;
+}

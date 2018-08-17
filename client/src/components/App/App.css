@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+  color: white;  
+  text-shadow: 1px 1px 2px black;
+  margin: 0;
+}
+
+.header {
+  text-align: left;  
+  position: relative;
+  z-index: 10;
+}
+
+.header button {
+    position: relative;
+    bottom: 40px;
+    left: 87vw;
+}
+
+.title {
+  font-size: 1.5em;
+}
+
+.main {
+  font-size: large;
+  position: relative;
+  top: -79px;
+}
+
+.loading {
+  display: none;
+}
