@@ -19,7 +19,6 @@ class Info extends Component {
         return (
             <div className="unsplash-info">
                 <p>Photo by <a href={this.getUserURL()}>{this.props.user.name}</a></p>
-                <a href={this.getCountryURL()}>{this.props.country}</a>
             </div>
         );
     }

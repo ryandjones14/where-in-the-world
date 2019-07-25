@@ -29,10 +29,19 @@ class App extends Component {
   }
   
   getNewPhotos = () => {
+    this.setState({
+      photos: [],
+      currentImg: 0,
+      hasPhotos: false,
+      isFetching: true,
+      message: 'getting some pics for u chill a bit',
+      score: 0,
+    })
     console.log('new photos');
     this.getRandomPhotos()
       .then(res => this.setState({
         photos: res,
+        isFetching: false
       }))
       .catch(err => console.log(err));
   }
@@ -48,15 +57,15 @@ class App extends Component {
 
   getNextImg = () => {
     let nextImg = this.state.currentImg + 1;
-    this.setState({ currentImg: nextImg, className: 'loading' });
+    this.setState({ currentImg: nextImg, isFetching: true });
     setTimeout(() => { 
-      this.setState({ className: 'main' });
+      this.setState({ isFetching: false });
     }, 3000);
   }
 
   getCurrentImgSrc = () => {
     console.log('currentImg', this.state.currentImg);
-    if (this.state.currentImg === 10) {
+    if (this.state.currentImg === 3) {
       this.getNewPhotos();
     }
     if (this.state.photos.length > 0 &&
@@ -94,24 +103,35 @@ class App extends Component {
   getAnswerChoices = () => {
     const countryList = this.state.countryList;
     let answerChoicesCopy = [];
+    let correctCountry = this.getCurrentCountry().toLowerCase();
+
     for (let i = 0; i < 3; i++) {
       let country = countryList[Math.floor(Math.random() * 205)];
-      if (country && answerChoicesCopy.indexOf(country) < 0) {
+      if (country !== correctCountry && answerChoicesCopy.indexOf(country) < 0) {
         answerChoicesCopy.push(country.toLowerCase());
       }
     }
-    answerChoicesCopy.splice(Math.floor(Math.random() * 3), 0, this.getCurrentCountry().toLowerCase());
+    answerChoicesCopy.splice(Math.floor(Math.random() * 3), 0, correctCountry);
     return answerChoicesCopy;
   };
 
   selectAnswer = (country) => {
     let newScore = this.state.score;
-    if (country === this.getCurrentCountry().toLowerCase()) {
+    let correctCountry = this.getCurrentCountry().toLowerCase();
+    if (country === correctCountry) {
       newScore++;
-      this.setState({score: newScore});
+      this.setState({
+        isFetching: true,
+        score: newScore,
+        message: 'yep w2g u did it'
+      });
     } else {
-      alert('nope');
+      this.setState({
+        isFetching: true,
+        message: `lol nope it was actually ${correctCountry}`
+      })
     }
+    this.getNextImg();
   };
 
   render() {
@@ -122,12 +142,20 @@ class App extends Component {
           <button onClick={this.getNewPhotos}>new game</button>          
         </header>
         {this.state && this.state.hasPhotos &&
-          <div className={this.state.className}>
+          <div>
             <div>score: {this.state.score}</div>
-            <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} />
-            <Quiz answerChoices={this.getAnswerChoices()} correctCountry={this.getCurrentCountry()} selectAnswer={this.selectAnswer}/>
-            <Info user={this.getUser()} country={this.getCurrentCountry()}/>
-            <button onClick={this.getNextImg}>next</button>
+            {!this.state.isFetching &&
+            <div>
+              <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} />
+              <Quiz answerChoices={this.getAnswerChoices()} correctCountry={this.getCurrentCountry()} selectAnswer={this.selectAnswer}/>
+              <Info user={this.getUser()} country={this.getCurrentCountry()}/>
+            </div>
+            }
+            {this.state.isFetching &&
+            <div>
+              <p>{this.state.message}</p>
+            </div>
+            }
           </div>
         }
       </div>
