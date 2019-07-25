@@ -42,8 +42,6 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
-  getN
-
   getRandomPhotos = async () => {
     const response = await fetch(`${api}/photos/random?client_id=${access_key}&count=30&orientation=landscape`);
     const body = await response.json();
@@ -66,12 +64,14 @@ class App extends Component {
   };
 
   startNewGame = () => {
-    localStorage.setItem('highScore', this.state.score);
+    if (this.state.score > (localStorage && localStorage.getItem('highScore'))) {
+      localStorage.setItem('highScore', this.state.score);
+    }
     this.getNewPhotos();
   };
 
   getHighScore = () => {
-    return localStorage && localStorage.getItem('highScore') || 0;
+    return (localStorage && localStorage.getItem('highScore')) || 0;
   };
 
   getCurrentImgSrc = () => {
@@ -83,9 +83,12 @@ class App extends Component {
         !this.state.photos[this.state.currentImg].location) {
       this.getNextImg();
     }
-    return this.state.photos.length > 0 &&
-           this.state.photos[this.state.currentImg] ?
-           this.state.photos[this.state.currentImg].urls.full : '';
+    return (this.state.photos.length > 0 &&
+           this.state.photos[this.state.currentImg].urls.full) || '';
+  };
+
+  getCurrentImgColor = () => {
+    return (this.state.photos.length > 0 && this.state.photos[this.state.currentImg].color) || '';
   }
 
   getCurrentImgDesc = () => {
@@ -147,7 +150,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" style={{ backgroundColor: this.getCurrentImgColor() }}>
         <header className="header">
           <h1 className="title">where in the world?</h1>
           <button onClick={this.getNewPhotos}>new game</button>          
