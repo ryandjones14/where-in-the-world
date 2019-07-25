@@ -11,7 +11,7 @@ class Info extends Component {
         return `https://unsplash.com/@${username}`;
     }
     getCountryURL = () => {
-        let country = this.props.location ? this.props.location.country : '';
+        let country = this.props.country ? this.props.country : '';
 
         return `https://unsplash.com/${country}`;
     }
@@ -19,7 +19,7 @@ class Info extends Component {
         return (
             <div className="unsplash-info">
                 <p>Photo by <a href={this.getUserURL()}>{this.props.user.name}</a></p>
-                <a href={this.getCountryURL()}>{this.props.location.country}</a>
+                <a href={this.getCountryURL()}>{this.props.country}</a>
             </div>
         );
     }
