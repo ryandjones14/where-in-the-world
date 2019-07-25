@@ -19,13 +19,7 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    this.getRandomPhotos()
-      .then(res => this.setState({
-        photos: res.filter(photo => photo.location && photo.location.country),
-        currentImg: 0,
-        hasPhotos: true,
-      }))
-      .catch(err => console.log(err));
+    this.getNewPhotos();
   }
   
   getNewPhotos = () => {
@@ -40,11 +34,15 @@ class App extends Component {
     console.log('new photos');
     this.getRandomPhotos()
       .then(res => this.setState({
-        photos: res,
+        photos: res.filter(photo => photo.location && photo.location.country),
+        currentImg: 0,
+        hasPhotos: true,
         isFetching: false
       }))
       .catch(err => console.log(err));
   }
+
+  getN
 
   getRandomPhotos = async () => {
     const response = await fetch(`${api}/photos/random?client_id=${access_key}&count=30&orientation=landscape`);
@@ -56,17 +54,30 @@ class App extends Component {
   };  
 
   getNextImg = () => {
+    if (this.state.currentImg === 3) {
+      this.startNewGame();
+      return;
+    }
     let nextImg = this.state.currentImg + 1;
     this.setState({ currentImg: nextImg, isFetching: true });
     setTimeout(() => { 
       this.setState({ isFetching: false });
     }, 3000);
-  }
+  };
+
+  startNewGame = () => {
+    localStorage.setItem('highScore', this.state.score);
+    this.getNewPhotos();
+  };
+
+  getHighScore = () => {
+    return localStorage && localStorage.getItem('highScore') || 0;
+  };
 
   getCurrentImgSrc = () => {
     console.log('currentImg', this.state.currentImg);
     if (this.state.currentImg === 3) {
-      this.getNewPhotos();
+      this.startNewGame();
     }
     if (this.state.photos.length > 0 &&
         !this.state.photos[this.state.currentImg].location) {
@@ -144,18 +155,19 @@ class App extends Component {
         {this.state && this.state.hasPhotos &&
           <div>
             <div>score: {this.state.score}</div>
-            {!this.state.isFetching &&
+            <div>high score: {this.getHighScore()}</div>
+          {this.state && !this.state.isFetching &&
             <div>
               <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} />
               <Quiz answerChoices={this.getAnswerChoices()} correctCountry={this.getCurrentCountry()} selectAnswer={this.selectAnswer}/>
               <Info user={this.getUser()} country={this.getCurrentCountry()}/>
             </div>
-            }
-            {this.state.isFetching &&
+          }
+          {this.state && this.state.isFetching &&
             <div>
               <p>{this.state.message}</p>
             </div>
-            }
+          }
           </div>
         }
       </div>
