@@ -1,20 +1,16 @@
 const express = require('express');
-
+const favicon = require('express-favicon');
+const path = require('path');
+const port = process.env.PORT || 3000;
 const app = express();
-const port = process.env.PORT || 5000;
-const access_key = '09ce42f77007d00a8005202f9eb969492e925a57fcb58f7ae0061874283ad225';
-// const secret_key = ENV['UNSPLASH_SECRET_KEY'];
-
-app.get(`https://api.unsplash.com/photos/random?client_id=${access_key}`, (req, res) => {
-  res.send({
-    id: res.id,
-    imageURL: res.urls.small,
-    location: {
-      city: res.location.city,
-      country: res.location.country,
-    },
-    userId: res.user.id,
-  });
+app.use(favicon(__dirname + '/build/favicon.ico'));
+// the __dirname is the current directory from where the script is running
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/ping', function (req, res) {
+  return res.send('pong');
 });
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+app.listen(port);

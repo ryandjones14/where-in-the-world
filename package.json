@@ -1,35 +1,26 @@
 {
-    "name": "where-in-the-world",
-    "version": "0.1.0",
-    "license": "MIT",
-    "scripts": {
-        "client": "cd client && yarn start",
-        "server": "nodemon server.js",
-        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-        "dev:server": "cd client && yarn build && cd .. && yarn start",
-        "start": "node server.js",
-        "heroku-postbuild": "cd client && yarn install && yarn install --only=dev --no-shrinkwrap && yarn run build",
-        "install": "cd client && yarn install"
-    },
-    "dependencies": {
-        "express": "^4.16.3",
-        "merge": ">=1.2.1",
-        "react-dev-utils": ">=5.0.2",
-        "webpack-dev-server": ">=3.1.11"
-    },
-    "devDependencies": {
-        "concurrently": "^3.6.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/esausilva/example-create-react-app-express.git"
-    },
-    "bugs": {
-        "url": "https://github.com/esausilva/example-create-react-app-express/issues"
-    },
-    "keywords": [
-        "node",
-        "express",
-        "create-react-app"
-    ]
+  "name": "where-in-the-world",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
+    "path": "^0.12.7",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "nom": "rm -rf node_modules/"
+  },
+  "proxy": "http://localhost:5000/",
+  "engines": {
+    "yarn": "1.9.4",
+    "node": "10.4.0"
+  }
 }
