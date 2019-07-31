@@ -52,15 +52,15 @@ class App extends Component {
   };  
 
   getNextImg = () => {
-    if (this.state.currentImg === 3) {
-      this.startNewGame();
-      return;
-    }
+    // if (this.state.currentImg === 3) {
+    //   this.startNewGame();
+    //   return;
+    // }
     let nextImg = this.state.currentImg + 1;
     this.setState({ currentImg: nextImg, isFetching: true });
     setTimeout(() => { 
       this.setState({ isFetching: false });
-    }, 3000);
+    }, 5000);
   };
 
   startNewGame = () => {
@@ -68,6 +68,7 @@ class App extends Component {
       localStorage.setItem('highScore', this.state.score);
     }
     this.getNewPhotos();
+    this.setState({score: 0});
   };
 
   getHighScore = () => {
@@ -76,9 +77,9 @@ class App extends Component {
 
   getCurrentImgSrc = () => {
     console.log('currentImg', this.state.currentImg);
-    if (this.state.currentImg === 3) {
-      this.startNewGame();
-    }
+    // if (this.state.currentImg === 3) {
+    //   this.startNewGame();
+    // }
     if (this.state.photos.length > 0 &&
         !this.state.photos[this.state.currentImg].location) {
       this.getNextImg();
@@ -142,8 +143,9 @@ class App extends Component {
     } else {
       this.setState({
         isFetching: true,
-        message: `lol nope it was actually ${correctCountry}`
-      })
+        message: `lol nope it was actually ${correctCountry}. time 4 a new game.`,
+      });
+      setTimeout(this.startNewGame, 3000);
     }
     this.getNextImg();
   };
@@ -158,12 +160,12 @@ class App extends Component {
         {this.state && this.state.hasPhotos &&
           <div>
             <div>score: {this.state.score}</div>
-            <div>high score: {this.getHighScore()}</div>
+            <div>hot streak: {this.getHighScore()}</div>
           {this.state && !this.state.isFetching &&
             <div>
-            <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} borderColor={this.getCurrentImgColor()}/>
+              <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} borderColor={this.getCurrentImgColor()}/>
               <Quiz answerChoices={this.getAnswerChoices()} correctCountry={this.getCurrentCountry()} selectAnswer={this.selectAnswer}/>
-              <Info user={this.getUser()} country={this.getCurrentCountry()}/>
+            <Info user={this.getUser()} country={this.getCurrentCountry()} country={this.getCurrentCountry()}/>
             </div>
           }
           {this.state && this.state.isFetching &&
