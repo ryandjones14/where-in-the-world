@@ -18,9 +18,7 @@ class Info extends Component {
     render() {
         return (
             <div className="unsplash-info">
-                <p>Photo by <a href={this.getUserURL()}>{this.props.user.name}</a></p>
-                <p>{this.props.country}</p>
-                
+                <p>Photo by <a href={this.getUserURL()}>{this.props.user.name}</a></p>                
             </div>
         );
     }

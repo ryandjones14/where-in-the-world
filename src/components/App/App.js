@@ -150,6 +150,13 @@ class App extends Component {
     this.getNextImg();
   };
 
+  getEmoji = () => {
+    if (this.state.score > 4) {
+      return '🔥'.repeat(Math.floor(this.state.score/5));
+    }
+    return '';
+  };
+
   render() {
     return (
       <div className="App">
@@ -159,8 +166,8 @@ class App extends Component {
         </header>
         {this.state && this.state.hasPhotos &&
           <div>
-            <div>score: {this.state.score}</div>
-            <div>hot streak: {this.getHighScore()}</div>
+            <div>{this.getEmoji()}score: {this.state.score}{this.getEmoji()}</div>
+            <div>highest streak: {this.getHighScore()}</div>
           {this.state && !this.state.isFetching &&
             <div>
               <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} borderColor={this.getCurrentImgColor()}/>
