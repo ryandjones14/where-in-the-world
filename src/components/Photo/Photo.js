@@ -8,7 +8,7 @@ class Photo extends Component {
 
     render() {
         return (
-            <div >
+            <div className='photo'>
                 <img className='unsplash-img' src={this.props.src} alt={this.props.altText} style={{ borderStyle: 'solid', borderColor: this.props.borderColor, borderWidth: '1px' }}/>
             </div>
         );

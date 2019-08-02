@@ -162,24 +162,26 @@ class App extends Component {
       <div className="App">
         <header className="header">
           <h1 className="title">where in the world?</h1>
-          <button onClick={this.getNewPhotos}>new game</button>          
+          {/* <button onClick={this.getNewPhotos}>new game</button>           */}
         </header>
         {this.state && this.state.hasPhotos &&
           <div>
-            <div>{this.getEmoji()}score: {this.state.score}{this.getEmoji()}</div>
-            <div>highest streak: {this.getHighScore()}</div>
-          {this.state && !this.state.isFetching &&
             <div>
-              <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} borderColor={this.getCurrentImgColor()}/>
-              <Quiz answerChoices={this.getAnswerChoices()} correctCountry={this.getCurrentCountry()} selectAnswer={this.selectAnswer}/>
-            <Info user={this.getUser()} country={this.getCurrentCountry()} country={this.getCurrentCountry()}/>
+              <div>{this.getEmoji()}score: {this.state.score}{this.getEmoji()}</div>
+              <div>highest streak: {this.getHighScore()}</div>
             </div>
-          }
-          {this.state && this.state.isFetching &&
-            <div>
-              <p>{this.state.message}</p>
-            </div>
-          }
+            {this.state && !this.state.isFetching &&
+              <div className="game">
+                <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} borderColor={this.getCurrentImgColor()}/>
+                <Info user={this.getUser()}/>
+                <Quiz answerChoices={this.getAnswerChoices()} correctCountry={this.getCurrentCountry()} selectAnswer={this.selectAnswer}/>
+              </div>
+            }
+            {this.state && this.state.isFetching &&
+              <div>
+                <p>{this.state.message}</p>
+              </div>
+            }
           </div>
         }
       </div>

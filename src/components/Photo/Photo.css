@@ -1,5 +1,9 @@
+a {
+    color: inherit;
+    text-decoration: none;
+}
 .unsplash-img {
     max-width: 80vw;
-    max-height: 80vh;
+    max-height: 70vh;
     margin: 4px;
 }
