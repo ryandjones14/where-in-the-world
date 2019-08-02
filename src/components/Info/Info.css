@@ -1,10 +1,25 @@
-.unsplash-info {
+.info {
   position: relative;
-  bottom: 100px;
-  z-index: 10;
+  bottom: 15px;
+  width: 15%;
+  margin: 0px 20%;
+}
+.info p {
+  text-align: left;
 }
 
 a {
-    color: rgb(223, 223, 223);
-    text-shadow: 3px 3px 5px 5px #252525;
+  color: rgb(223, 223, 223);
+  text-shadow: 3px 3px 5px 5px #252525;
+  font-weight: bold;
+}
+
+@media (max-width: 450px) {
+.info {
+  position: fixed;
+  top: 48%;
+  left: -9%;
+  width: 50%;
+  margin: 0 12%;
+}
 }

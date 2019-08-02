@@ -3,9 +3,14 @@ body {
 }
 .App {
   text-align: center;
-  color: rgb(11, 34, 13);  
-  text-shadow: 1px 1px 2px rgb(187, 212, 188);
-  margin: 0;
+  color: rgb(209, 211, 209);  
+  text-shadow: 1px 1px 2px rgb(107, 129, 109);
+  margin: 10px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  grid-template-rows: 1fr, 3fr, 1fr;
+  grid-gap: 10px;
+  /* grid-auto-rows: minmax(100px, auto); */
 }
 
 .header {
@@ -28,8 +33,4 @@ body {
   font-size: large;
   position: relative;
   top: -79px;
-}
-
-.loading {
-  display: none;
 }
