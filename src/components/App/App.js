@@ -23,13 +23,14 @@ class App extends Component {
   }
   
   getNewPhotos = () => {
+    let score = this.state.score || 0;
     this.setState({
       photos: [],
       currentImg: 0,
       hasPhotos: false,
       isFetching: true,
       message: 'getting some pics for u chill a bit',
-      score: 0,
+      score,
     })
     console.log('new photos');
     this.getRandomPhotos()
@@ -37,6 +38,7 @@ class App extends Component {
         photos: res.filter(photo => photo.location && photo.location.country),
         currentImg: 0,
         hasPhotos: true,
+        message: 'getting some pics for u chill a bit',
         isFetching: false
       }))
       .catch(err => console.log(err));
@@ -130,12 +132,12 @@ class App extends Component {
     return answerChoicesCopy;
   };
 
-  selectAnswer = (country) => {
+  selectAnswer = async (country) => {
     let newScore = this.state.score;
     let correctCountry = this.getCurrentCountry().toLowerCase();
     if (country === correctCountry) {
       newScore++;
-      this.setState({
+      await this.setState({
         isFetching: true,
         score: newScore,
         message: 'yep w2g u did it'
@@ -147,7 +149,11 @@ class App extends Component {
       });
       setTimeout(this.startNewGame, 3000);
     }
-    this.getNextImg();
+    if (this.state.currentImg === this.state.photos.length - 1) {
+      this.getNewPhotos();
+    } else {
+      this.getNextImg();
+    }
   };
 
   getEmoji = () => {
@@ -162,7 +168,6 @@ class App extends Component {
       <div className="App">
         <header className="header">
           <h1 className="title">where in the world?</h1>
-          {/* <button onClick={this.getNewPhotos}>new game</button>           */}
         </header>
         {this.state && this.state.hasPhotos &&
           <div>
