@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Photo from '../Photo/Photo';
-import Info from '../Info/Info';
 import Quiz from '../Quiz/Quiz';
 
 const access_key = '09ce42f77007d00a8005202f9eb969492e925a57fcb58f7ae0061874283ad225';
@@ -22,7 +21,7 @@ class App extends Component {
     this.getNewPhotos();
   }
   
-  getNewPhotos = () => {
+  getNewPhotos = async () => {
     let score = this.state.score || 0;
     this.setState({
       photos: [],
@@ -31,9 +30,9 @@ class App extends Component {
       isFetching: true,
       message: 'getting some pics for u chill a bit',
       score,
-    })
+    });
     console.log('new photos');
-    this.getRandomPhotos()
+    await this.getRandomPhotos()
       .then(res => this.setState({
         photos: res.filter(photo => photo.location && photo.location.country),
         currentImg: 0,
@@ -42,7 +41,9 @@ class App extends Component {
         isFetching: false
       }))
       .catch(err => console.log(err));
-  }
+    fetch(this.state.photos[0].urls.full);
+    fetch(this.state.photos[1].urls.full);    
+  };
 
   getRandomPhotos = async () => {
     const response = await fetch(`${api}/photos/random?client_id=${access_key}&count=30&orientation=landscape`);
@@ -54,11 +55,12 @@ class App extends Component {
   };  
 
   getNextImg = () => {
-    // if (this.state.currentImg === 3) {
-    //   this.startNewGame();
-    //   return;
-    // }
     let nextImg = this.state.currentImg + 1;
+    if (nextImg === this.state.photos.length - 1) {
+      this.getNewPhotos();
+      return;
+    }
+    fetch(this.state.photos[nextImg + 1].urls.full);
     this.setState({ currentImg: nextImg, isFetching: true });
     setTimeout(() => { 
       this.setState({ isFetching: false });
@@ -79,9 +81,10 @@ class App extends Component {
 
   getCurrentImgSrc = () => {
     console.log('currentImg', this.state.currentImg);
-    // if (this.state.currentImg === 3) {
-    //   this.startNewGame();
-    // }
+    if (this.state.currentImg === this.state.photos.length - 1) {
+      this.getNewPhotos();
+      return;
+    }
     if (this.state.photos.length > 0 &&
         !this.state.photos[this.state.currentImg].location) {
       this.getNextImg();
@@ -177,9 +180,17 @@ class App extends Component {
             </div>
             {this.state && !this.state.isFetching &&
               <div className="game">
-                <Photo src={this.getCurrentImgSrc()} altText={this.getCurrentImgDesc()} borderColor={this.getCurrentImgColor()}/>
-                <Info user={this.getUser()}/>
-                <Quiz answerChoices={this.getAnswerChoices()} correctCountry={this.getCurrentCountry()} selectAnswer={this.selectAnswer}/>
+                <Photo
+                  src={this.getCurrentImgSrc()}
+                  altText={this.getCurrentImgDesc()}
+                  borderColor={this.getCurrentImgColor()}
+                  user={this.getUser()}
+                />
+                <Quiz
+                  answerChoices={this.getAnswerChoices()}
+                  correctCountry={this.getCurrentCountry()}
+                  selectAnswer={this.selectAnswer}
+                />
               </div>
             }
             {this.state && this.state.isFetching &&
