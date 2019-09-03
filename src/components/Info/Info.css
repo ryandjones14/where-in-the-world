@@ -1,6 +1,8 @@
 .info {
   position: relative;
-  margin: 0px 20%;
+  margin: 0px 25%;
+  bottom: 75px;
+  width: 50%;
 }
 .info p {
   text-align: left;
@@ -8,8 +10,8 @@
 
 a {
   color: rgb(223, 223, 223);
-  text-shadow: 3px 3px 5px 5px #252525;
   font-weight: bold;
+  text-shadow: 3px 3px 5px #363736;
 }
 
 @media (max-width: 450px) {
@@ -18,5 +20,7 @@ a {
     top: 48%;
     left: -9%;
     margin: 0 12%;
+    bottom: 0px;
+    width: 100%;
   }
 }
