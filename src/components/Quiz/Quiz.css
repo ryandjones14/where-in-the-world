@@ -18,7 +18,7 @@ button {
 @media (max-width: 450px) {
   .quiz {
     width: 100%;
-    top: 55%;
+    top: 70%;
     left: 0px;
     margin: 0 auto;
   }

@@ -1,7 +1,5 @@
 .info {
-  position: absolute;
-  bottom: 15px;
-  width: 15%;
+  position: relative;
   margin: 0px 20%;
 }
 .info p {
@@ -15,11 +13,10 @@ a {
 }
 
 @media (max-width: 450px) {
-.info {
-  position: absolute;
-  top: 48%;
-  left: -9%;
-  width: 50%;
-  margin: 0 12%;
-}
+  .info {
+    position: relative;
+    top: 48%;
+    left: -9%;
+    margin: 0 12%;
+  }
 }
