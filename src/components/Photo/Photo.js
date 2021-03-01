@@ -1,20 +1,25 @@
-import React, { Component } from 'react';
+import React, { Fragment, useState } from "react";
+import { gql, useQuery } from '@apollo/client';
 import './Photo.css';
 import Info from '../Info/Info';
 
-class Photo extends Component {
-    constructor(props) {
-        super(props);
-    }
+const Photo = ({ photo }) => {
+  // const { data, loading, error } = useQuery(GET_PHOTOS);
 
-    render() {
-        return (
-            <div className='photo'>
-                <img className='unsplash-img' src={this.props.src} alt={this.props.altText} style={{ borderStyle: 'solid', borderColor: this.props.borderColor, borderWidth: '1px' }}/>
-                <Info user={this.props.user} />
-            </div>
-        );
-    }
-}
+  // if (loading) return <p>loading</p>;
+  // if (error) return <p>ERROR</p>;
+  // if (!data || data.photos.length < 1) return <p>Not found</p>;
+
+  console.log(`photo: ${photo}`);
+  return (
+      <Fragment>
+          <div className='photo'>
+            {/* <p>this is where the photo should go</p> */}
+            <img className='unsplash-img' src={photo.urls.regular} alt={photo.description} style={{ borderStyle: 'solid', borderColor: photo.color, borderWidth: '1px' }}/>
+              {/* <Info user={photo.user} /> */}
+          </div>
+      </Fragment>
+  );
+};
 
 export default Photo;
