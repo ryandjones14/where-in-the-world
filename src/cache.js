@@ -16,6 +16,23 @@ export const cache = new InMemoryCache({
             }
             return photos;
           }
+        },
+        score: {
+          keyArgs: false,
+          read() {
+            return scoreVar();
+          }
+        },
+        photo: {
+          keyArgs: false,
+          read() {
+            return photoVar();
+          }
+        },
+        answerChoices: {
+          read() {
+            return answerChoicesVar();
+          }
         }
       }
     }
@@ -24,21 +41,15 @@ export const cache = new InMemoryCache({
 
 const photoVar = makeVar(null);
 const scoreVar = makeVar(0);
+const answerChoicesVar = makeVar([]);
+const usedPhotoCountVar = makeVar(0);
+const isCompleteVar = makeVar(false);
 
 export const stateOps = {
-  readPhoto() {
-    return photoVar();
-  },
-  changePhoto(photo) {
-    photoVar(photo);
-  },
-  readScore() {
-    return scoreVar();
-  },
-  incScore() {
-    let score = scoreVar();
-    score++;
-    scoreVar(score);
-  }
+  photoVar,
+  scoreVar,
+  answerChoicesVar,
+  usedPhotoCountVar,
+  isCompleteVar,
 }
 

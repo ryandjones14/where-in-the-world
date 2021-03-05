@@ -18,7 +18,7 @@ class Info extends Component {
     render() {
         return (
             <div className="info">
-                <p>📷: <a href={this.getUserURL()}>{this.props.user.name}</a></p>                
+                <p>📷: <a href={this.getUserURL()}>{this.props.user.username}</a></p>                
             </div>
         );
     }
