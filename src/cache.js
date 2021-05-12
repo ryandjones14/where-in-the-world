@@ -42,14 +42,14 @@ export const cache = new InMemoryCache({
 const photoVar = makeVar(null);
 const scoreVar = makeVar(0);
 const answerChoicesVar = makeVar([]);
-const usedPhotoCountVar = makeVar(0);
+const answeredCountVar = makeVar(0);
 const isCompleteVar = makeVar(false);
 
 export const stateOps = {
   photoVar,
   scoreVar,
   answerChoicesVar,
-  usedPhotoCountVar,
+  answeredCountVar,
   isCompleteVar,
 }
 

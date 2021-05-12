@@ -18,7 +18,7 @@ class Info extends Component {
     render() {
         return (
             <div className="info">
-                <p>📷: <a href={this.getUserURL()}>{this.props.user.username}</a></p>                
+                <p><span role="img" aria-label="camera emoji">📷</span>: <a href={this.getUserURL()}>{this.props.user.username}</a></p>                
             </div>
         );
     }
